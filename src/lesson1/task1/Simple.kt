@@ -80,11 +80,8 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    val m = min / 60.0
-    val s = sec / 3600.0
-    return (m + s + grad) * PI / 180
-}
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double = ((min / 60.0) + (sec / 3600.0) + grad) * PI / 180
+
 
 /**
  * Тривиальная
@@ -93,11 +90,8 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val x = sqr(x2 - x1)
-    val y = sqr(y2 - y1)
-    return sqrt(x + y)
-}
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(sqr(x1 - x2) + sqr(y1 - y2))
+
 
 /**
  * Простая
@@ -105,10 +99,8 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int {
-    val x = number % 1000
-    return x / 100
-}
+fun thirdDigit(number: Int): Int = (number % 1000)/100
+
 
 /**
  * Простая
@@ -118,11 +110,8 @@ fun thirdDigit(number: Int): Int {
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val x = hoursArrive * 60 + minutesArrive
-    val y = hoursDepart * 60 + minutesDepart
-    return x - y
-}
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
+        (hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart)
 
 /**
  * Простая
@@ -131,20 +120,13 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val p = pow(percent / 100.0 + 1, 3.0)
-    return p * initial
-}
-
+fun accountInThreeYears(initial: Int, percent: Int): Double =
+        initial * pow(1 + percent / 100.0, 3.0)
 /**
  * Простая
  *
  * Пользователь задает целое трехзначное число (например, 478).
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int {
-    val x = number / 100
-    val y = (number - x * 100) / 10
-    val z = (number - x * 100 - y * 10)
-    return x + y * 10 + z * 100
-}
+fun numberRevert(number: Int): Int =
+        (number % 10) * 100 + ((number / 10) % 10) * 10 + number / 100
