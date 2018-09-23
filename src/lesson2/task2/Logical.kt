@@ -71,7 +71,7 @@ fun daysInMonth(month: Int, year: Int): Int {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean =
-        r1 <= sqrt(pow(x1-x2, 2.0) + pow(y1-y2, 2.0)) + r2
+        r2 >= sqrt(pow(x1-x2, 2.0) + pow(y1-y2, 2.0)) + r1
 
 
 /**
@@ -84,10 +84,10 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val dlinak = max(a,max(b,c))
-    val shirinak = min(a,min(b,c))
-    val visotak = a + b + c - dlinak - shirinak
-    val dlinas = max(r,s)
-    val visotas = min(r,s)
-    return (dlinak <= dlinas) && (visotak <= visotas)
+    val width = max(a,max(b,c))
+    val length = min(a,min(b,c))
+    val height = a + b + c - length - width
+    val length1 = min(r,s)
+    val hight1 = max(r,s)
+    return (length <= length1) && (height <= hight1)
 }
