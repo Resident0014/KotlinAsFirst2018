@@ -23,7 +23,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean =
-        (number%10) + ((number/10)%10) == ((number/100)%10) + (number/1000)
+        (number%10)+((number/10)%10)==((number/100)%10)+(number/1000)
 
 
 
@@ -35,7 +35,7 @@ fun isNumberHappy(number: Int): Boolean =
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
-         x1==x2 || y1==y2 || abs(x2 - x1) == abs(y2 - y1)
+         x1 == x2 || y1 == y2 || abs(x2 - x1) == abs(y2 - y1)
 
 
 /**
@@ -47,7 +47,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
 fun daysInMonth(month: Int, year: Int): Int {
     return when (month) {
         1 -> 31
-        2 -> return if ((year % 100 != 0) && (year % 4 == 0) || (year % 400 == 0)) 29 else 28
+        2 -> if ((year % 100 != 0) && (year % 4 == 0) || (year % 400 == 0)) 29 else 28
         3 -> 31
         4 -> 30
         5 -> 31
