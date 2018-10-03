@@ -74,7 +74,7 @@ fun digitNumber(n: Int): Int {
     do {
         count++
         number /= 10
-    } while (number > 0)
+    } while (number != 0)
     return count
 }
 
@@ -84,7 +84,16 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = if (n <= 2) 1 else fib(n-1) + fib (n-2)
+fun fib(n: Int): Int {
+    var x1 = 1
+    var x2 = 1
+    for (i in 3..n) {
+        val fib1 = x1 +x2
+        x1 = x2
+        x2 = fib1
+    }
+    return x2
+}
 
 
 /**
@@ -94,10 +103,10 @@ fun fib(n: Int): Int = if (n <= 2) 1 else fib(n-1) + fib (n-2)
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 0
-    do {
+    var k = 1
+    while (((k % n != 0) && (k % m == 0)) || ((k % n == 0) && (k % m != 0)) || ((k % n != 0) && (k % m != 0))) {
         k++
-    } while (((k % n != 0) && (k % m == 0)) || ((k % n == 0) && (k % m != 0)) || ((k % n != 0) && (k % m != 0)))
+    }
     return k
 }
 
