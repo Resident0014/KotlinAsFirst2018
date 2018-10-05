@@ -123,12 +123,8 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    for (i in n-1 downTo 1) {
-        if (n % i == 0) return i
-    }
-    return 1
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
+
 
 /**
  * Простая
@@ -293,7 +289,7 @@ fun fibSequenceDigit(n: Int): Int {
     var value = 0
     while (number < n) {
         value++
-        fib = lesson3.task1.fib(value)
+        fib = fib(value)
         number += digitNumber(fib)
     }
     while (number != n) {
