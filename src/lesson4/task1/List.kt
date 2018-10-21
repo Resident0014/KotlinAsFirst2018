@@ -251,10 +251,11 @@ fun convertToString(n: Int, base: Int): String {
     val x = convert(n, base)
     val letters = "abcdefghigklmnopqrstuvwxyz"
     var result = ""
-    if (base < 10) return x.joinToString("") else {
-        for (element in x) {
-            if (element >= 10) result += letters[element - 10]
-            else result += element
+    for (element in x) {
+        if (element < 9) {
+            result += element
+        } else {
+            result += letters[element - 10]
         }
     }
 return result
@@ -321,7 +322,7 @@ fun roman(n: Int): String {
  */
 
 var tens = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят",
-        "шестьдесят", "семьдесят", "восемьдесят", "десяносто")
+        "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
 var units = listOf("", "одна", "две", "три", "четыре", "пять", "шесть",
         "семь", "восемь", "девять")
 var tens2 = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать",
