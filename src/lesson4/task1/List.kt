@@ -249,7 +249,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val x = convert(n, base)
-    val letters = "abcdefghigklmnopqrstuvwxyz"
+    val letters = "abcdefghijklmnopqrstuvwxyz"
     var result = ""
     for (element in x) {
         if (element < 9) {
@@ -363,10 +363,14 @@ fun firstThree(n: Int): List<String> {
             resultFirstThree.add(tens[n1 / 10 % 10])
             resultFirstThree.add(units[n1 % 10])
         }
-        when (n1 % 10) {
-            1 -> resultFirstThree.add("тысяча")
-            in 2..4 -> resultFirstThree.add("тысячи")
-            else -> resultFirstThree.add("тысяч")
+        if (n1 % 100 in 11..19) {
+            resultFirstThree.add("тысяч")
+        } else {
+            when (n1 % 10) {
+                1 -> resultFirstThree.add("тысяча")
+                in 2..4 -> resultFirstThree.add("тысячи")
+                else -> resultFirstThree.add("тысяч")
+            }
         }
     }
     return resultFirstThree.filter { it != "" }
