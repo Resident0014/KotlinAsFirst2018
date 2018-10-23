@@ -316,7 +316,7 @@ var hundreds = listOf("", "сто", "двести", "триста", "четыр�
         "шестьсот", "семьсот", "восемьсот", "девятьсот")
 
 
-fun lastThree(n: Int): String {
+fun lastThree(n: Int): List<String> {
     val resultLastThree = mutableListOf<String>()
     if (n > 0) {
         resultLastThree.add(hundreds[n / 100 % 10])
@@ -331,11 +331,11 @@ fun lastThree(n: Int): String {
             }
         }
     }
-    return resultLastThree.filter { it != "" }.joinToString(separator = (" "))
+    return resultLastThree.filter { it != "" }
 }
 
 
-fun firstThree(n: Int): String {
+fun firstThree(n: Int): List<String> {
     val n1 = n / 1000
     val resultFirstThree = mutableListOf<String>()
     if (n > 999) {
@@ -358,7 +358,7 @@ fun firstThree(n: Int): String {
             }
         }
     }
-    return resultFirstThree.filter { it != "" }.joinToString(separator = (" "))
+    return resultFirstThree.filter { it != "" }
 }
 
-fun russian(n: Int): String = (firstThree(n) + lastThree(n))
+fun russian(n: Int): String = (firstThree(n) + lastThree(n)).joinToString(separator = (" "))
