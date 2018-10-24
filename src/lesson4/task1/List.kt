@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
+@file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence", "IMPLICIT_CAST_TO_ANY")
 
 package lesson4.task1
 
@@ -148,8 +148,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = a.foldIndexed(0.0)
-{ index, result, element -> result + element * b[index] }
+fun times(a: List<Double>, b: List<Double>): Double =
+        a.foldIndexed(0.0) { index, result, element -> result + element * b[index] }
 
 
 /**
@@ -160,8 +160,9 @@ fun times(a: List<Double>, b: List<Double>): Double = a.foldIndexed(0.0)
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double = p.foldIndexed(0.0)
-{ index, result, element -> result + element * pow(x, index.toDouble()) }
+fun polynom(p: List<Double>, x: Double): Double =
+        p.foldIndexed(0.0) { index, result, element ->
+            result + element * pow(x, index.toDouble()) }
 
 /**
  * Средняя
@@ -220,10 +221,10 @@ fun convert(n: Int, base: Int): List<Int> {
     val result = mutableListOf<Int>()
     var n1 = n
     do {
-        result.add(n1 % base)
+        result.add(0, n1 % base)
         n1 /= base
     } while (n1 > 0)
-    return result.reversed()
+    return result
 }
 
 /**
@@ -234,19 +235,9 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String {
-    val x = convert(n, base)
-    val letters = "abcdefghijklmnopqrstuvwxyz"
-    var result = ""
-    for (element in x) {
-        result += if (element < 10) {
-            element
-        } else {
-            letters[element - 10]
-        }
-    }
-    return result
-}
+fun convertToString(n: Int, base: Int): String =
+        convert(n, base).map { if (it > 9) 'a' + it - 10 else it }.joinToString(separator = "")
+
 
 /**
  * Средняя
@@ -267,13 +258,9 @@ fun decimal(digits: List<Int>, base: Int): Int = digits.reversed().foldIndexed(0
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int {
-    val result = mutableListOf<Int>()
-    for (i in str) {
-        if (i in 'a'..'z') result.add(i - 'a' + 10) else result.add(i.toString().toInt())
-    }
-    return decimal(result, base)
-}
+fun decimalFromString(str: String, base: Int): Int =
+        decimal(str.map { if (it.isDigit()) (it - '0') else (it - 'a' + 10) }, base)
+
 
 
 /**
