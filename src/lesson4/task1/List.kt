@@ -161,9 +161,7 @@ fun times(a: List<Double>, b: List<Double>): Double =
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double =
-        p.foldIndexed(0.0) { index, result, element ->
-            result + element * pow(x, index.toDouble())
-        }
+        p.foldIndexed(0.0) { index, result, element -> result + element * pow(x, index.toDouble()) }
 
 /**
  * Средняя
@@ -247,8 +245,9 @@ fun convertToString(n: Int, base: Int): String =
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = digits.foldRightIndexed(0)
-{ index, element, result -> result + pow(base.toDouble(), (digits.size - 1 - index).toDouble()).toInt() * element }
+fun decimal(digits: List<Int>, base: Int): Int = digits.foldRightIndexed(0) { index, element, result ->
+    result + pow(base.toDouble(), (digits.size - 1 - index).toDouble()).toInt() * element
+}
 
 /**
  * Сложная
