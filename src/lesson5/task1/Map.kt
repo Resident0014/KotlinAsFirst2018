@@ -128,7 +128,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a + b == b
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
 
 /**
  * Средняя
@@ -220,7 +220,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = word.toSet() == chars.toSet()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = word.all { it in chars }
 
 /**
  * Средняя
@@ -251,7 +251,7 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = words.map { it.toSet() }.toSet().size != words.toSet().size
+fun hasAnagrams(words: List<String>): Boolean = words.map { it.toSet() }.toSet().size != words.size
 
 /**
  * Сложная
