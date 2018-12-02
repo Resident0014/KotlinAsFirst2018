@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 /**
  * Пример
  *
@@ -59,6 +61,9 @@ fun main(args: Array<String>) {
     }
 }
 
+val mapMonths = mapOf("января" to 1, "февраля" to 2, "марта" to 3, "апреля" to 4,
+        "мая" to 5, "июня" to 6, "июля" to 7, "августа" to 8, "сентября" to 9,
+        "октября" to 10, "ноября" to 11, "декабря" to 12)
 
 /**
  * Средняя
@@ -71,7 +76,15 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    val day = parts[0].toIntOrNull() ?: 0
+    val month = mapMonths[parts[1]] ?: return ""
+    val year = parts[2].toIntOrNull() ?: 0
+    if (day > daysInMonth(month, year) || day == 0 || year == 0) return ""
+    return String.format("%02d.%02d.%d", day, month, year)
+}
 
 /**
  * Средняя
@@ -83,7 +96,18 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val monthsMap = mapOf("01" to "января", "02" to "февраля", "03" to "марта", "04" to "апреля",
+            "05" to "мая", "06" to "июня", "07" to "июля", "08" to "августа", "09" to "сентября",
+            "10" to "октября", "11" to "ноября", "12" to "декабря")
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    val day = parts[0].toIntOrNull() ?: 0
+    val year = parts[2].toIntOrNull() ?: 0
+    val month = monthsMap[parts[1]] ?: return ""
+    if (day > daysInMonth(mapMonths[month]!!, year) || day == 0 || year == 0) return ""
+    return String.format("%d $month %d", day, year)
+}
 
 /**
  * Средняя
