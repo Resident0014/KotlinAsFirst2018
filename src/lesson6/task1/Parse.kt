@@ -51,12 +51,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -80,10 +78,10 @@ val mapMonths = mapOf("января" to 1, "февраля" to 2, "марта" t
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (parts.size != 3) return ""
-    val day = parts[0].toIntOrNull() ?: 0
+    val day = parts[0].toIntOrNull() ?: -1
     val month = mapMonths[parts[1]] ?: return ""
-    val year = parts[2].toIntOrNull() ?: 0
-    if (day > daysInMonth(month, year) || day == 0 || year == 0) return ""
+    val year = parts[2].toIntOrNull() ?: -1
+    if (day > daysInMonth(month, year) || day == -1 || year == -1) return ""
     return String.format("%02d.%02d.%d", day, month, year)
 }
 
@@ -103,10 +101,10 @@ fun dateDigitToStr(digital: String): String {
             "10" to "октября", "11" to "ноября", "12" to "декабря")
     val parts = digital.split(".")
     if (parts.size != 3) return ""
-    val day = parts[0].toIntOrNull() ?: 0
-    val year = parts[2].toIntOrNull() ?: 0
+    val day = parts[0].toIntOrNull() ?: -1
+    val year = parts[2].toIntOrNull() ?: -1
     val month = monthsMap[parts[1]] ?: return ""
-    if (day > daysInMonth(mapMonths[month]!!, year) || day == 0 || year == 0) return ""
+    if (day > daysInMonth(mapMonths[month]!!, year) || day == -1 || year == -1) return ""
     return String.format("%d $month %d", day, year)
 }
 
@@ -122,7 +120,11 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (Regex("""(\+|\d)\d+?\s*(\(\d+\))?((\s*-*)*\d+)+""").matches(phone))
+        return Regex("""(\s)|(-)|(\()|(\))""").replace(phone, "")
+    return ""
+}
 
 /**
  * Средняя
@@ -134,7 +136,18 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val regexJump = Regex("""(-)|(%)|(\s)""").replace(jumps, "")
+    val check = Regex("""(-)|(%)|(\s)|(\d)""").replace(jumps, "")
+    val parts = jumps.split(" ")
+    val result = mutableListOf<Int>()
+    if (regexJump.isEmpty()) return -1
+    if (check.isNotEmpty()) return -1
+    for (part in parts) {
+        if (regexJump.contains(part)) result.add(part.toInt())
+    }
+    return result.max()!!
+}
 
 /**
  * Сложная
@@ -146,7 +159,17 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val regexJump = Regex("""(%)|(-)""").replace(jumps, "")
+    val parts = regexJump.split(" ")
+    val result = mutableListOf<Int>()
+    val check = Regex("""(-)|(%)|(\s)|(\d)|(\+)""").replace(jumps, "")
+    if (check.isNotEmpty()) return -1
+    for (i in 0..(parts.size - 1)) {
+        if (parts[i] == "+") result.add(parts[i - 1].toInt())
+    }
+    return result.max()!!
+}
 
 /**
  * Сложная
@@ -157,7 +180,17 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    val result = mutableListOf(parts[0].toInt())
+    if (Regex("""((\d+\s*[+-]\s*)+\d+)?""").matches(expression) || (Regex("""\d+""").matches(expression))) {
+        for (i in 1..(parts.size - 1) step 2) {
+            if (parts[i] == "+") result.add(parts[i + 1].toInt())
+            else result.add(-parts[i + 1].toInt())
+        }
+    } else throw IllegalArgumentException()
+    return result.sum()
+}
 
 /**
  * Сложная
