@@ -121,8 +121,9 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (Regex("""(\+|\d)\d+?\s*(\(\d+\))?((\s*-*)*\d+)+""").matches(phone))
+    if (Regex("""([(\+)?\d*]\d*?\s*(\(\d+\))?\s*(\d+\s*-*\s*)*\d+)+""").matches(phone))
         return Regex("""(\s)|(-)|(\()|(\))""").replace(phone, "")
+    if (Regex("""\d""").matches(phone)) return phone
     return ""
 }
 
@@ -139,7 +140,7 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     val regexJump = Regex("""(-)|(%)|(\s)""").replace(jumps, "")
     val check = Regex("""(-)|(%)|(\s)|(\d)""").replace(jumps, "")
-    val parts = jumps.split(" ")
+    val parts = jumps.split(" ", "%", "-").filter { it != "" }
     val result = mutableListOf<Int>()
     if (regexJump.isEmpty()) return -1
     if (check.isNotEmpty()) return -1
@@ -165,6 +166,7 @@ fun bestHighJump(jumps: String): Int {
     val result = mutableListOf<Int>()
     val check = Regex("""(-)|(%)|(\s)|(\d)|(\+)""").replace(jumps, "")
     if (check.isNotEmpty()) return -1
+    if (jumps.isEmpty()) return -1
     for (i in 0..(parts.size - 1)) {
         if (parts[i] == "+") result.add(parts[i - 1].toInt())
     }
@@ -201,7 +203,16 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val parts = str.split(" ")
+    var result = 0
+    if (parts.size >= 2)
+        for (i in 0..(parts.size - 1)) {
+            if (parts[i].toLowerCase() == parts[i + 1].toLowerCase()) return result
+            else result += parts[i].length + 1
+        }
+    return -1
+}
 
 /**
  * Сложная
@@ -214,7 +225,15 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val regex = Regex("""((([a-zа-яA-ZА-Я])+\s([0123456789(\.)]+)(\;)?\s?)+)""")
+    if (!regex.matches(description)) return ""
+    Regex("""(\;)""").replace(description, "")
+    val parts = description.split(" ", ";").filter { it != "" }
+    val list = mutableListOf<Double>()
+    for (i in 1..(parts.size - 1) step 2) list += parts[i].toDouble()
+    return parts[(parts.indexOf(list.max().toString())) - 1]
+}
 
 /**
  * Сложная
