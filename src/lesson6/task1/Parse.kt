@@ -78,10 +78,10 @@ val mapMonths = mapOf("января" to 1, "февраля" to 2, "марта" t
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (parts.size != 3) return ""
-    val day = parts[0].toIntOrNull() ?: -1
+    val day = parts[0].toIntOrNull() ?: return ""
     val month = mapMonths[parts[1]] ?: return ""
-    val year = parts[2].toIntOrNull() ?: -1
-    if (day > daysInMonth(month, year) || day == -1 || year == -1) return ""
+    val year = parts[2].toIntOrNull()
+    if (year == null || day !in 1..daysInMonth(month, year)) return ""
     return String.format("%02d.%02d.%d", day, month, year)
 }
 
@@ -101,10 +101,10 @@ fun dateDigitToStr(digital: String): String {
             "10" to "октября", "11" to "ноября", "12" to "декабря")
     val parts = digital.split(".")
     if (parts.size != 3) return ""
-    val day = parts[0].toIntOrNull() ?: -1
-    val year = parts[2].toIntOrNull() ?: -1
+    val day = parts[0].toIntOrNull() ?: return ""
+    val year = parts[2].toIntOrNull() ?: return ""
     val month = monthsMap[parts[1]] ?: return ""
-    if (day > daysInMonth(mapMonths[month]!!, year) || day == -1 || year == -1) return ""
+    if (day !in 1..daysInMonth(mapMonths[month]!!, year)) return ""
     return String.format("%d $month %d", day, year)
 }
 
@@ -165,6 +165,7 @@ fun bestHighJump(jumps: String): Int {
     val parts = regexJump.split(" ")
     val result = mutableListOf<Int>()
     val check = Regex("""(-)|(%)|(\s)|(\d)|(\+)""").replace(jumps, "")
+    if (!jumps.contains(Regex("""(\+)"""))) return -1
     if (check.isNotEmpty()) return -1
     if (jumps.isEmpty()) return -1
     for (i in 0..(parts.size - 1)) {
@@ -204,15 +205,16 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val parts = str.split(" ")
+    val parts = str.toLowerCase().split(" ")
     var result = 0
     if (parts.size >= 2)
-        for (i in 0..(parts.size - 1)) {
-            if (parts[i].toLowerCase() == parts[i + 1].toLowerCase()) return result
+        for (i in 0 until (parts.size - 1)) {
+            if (parts[i] == parts[i + 1]) return result
             else result += parts[i].length + 1
         }
     return -1
 }
+
 
 /**
  * Сложная
@@ -228,7 +230,6 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     val regex = Regex("""((([a-zа-яA-ZА-Я])+\s([0123456789(\.)]+)(\;)?\s?)+)""")
     if (!regex.matches(description)) return ""
-    Regex("""(\;)""").replace(description, "")
     val parts = description.split(" ", ";").filter { it != "" }
     val list = mutableListOf<Double>()
     for (i in 1..(parts.size - 1) step 2) list += parts[i].toDouble()
@@ -247,7 +248,6 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int = TODO()
-
 /**
  * Очень сложная
  *

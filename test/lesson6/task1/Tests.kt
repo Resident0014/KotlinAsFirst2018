@@ -82,6 +82,7 @@ class Tests {
         assertEquals(-1, bestHighJump("???"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
         assertEquals(-1, bestHighJump(""))
+        assertEquals(-1, bestHighJump("147483647 %%-"))
     }
 
     @Test
@@ -97,6 +98,7 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { plusMinus("44 - - 12") }
         assertThrows(IllegalArgumentException::class.java) { plusMinus("4 - + 12") }
         assertThrows(IllegalArgumentException::class.java) { plusMinus("6)Uz'#YP\n(!2\"x+0\",i_") }
+        assertThrows(IllegalArgumentException::class.java) { plusMinus("G-c(qX}Cz/8yu2*I(^W*") }
     }
 
     @Test
@@ -106,6 +108,7 @@ class Tests {
         assertEquals(9, firstDuplicateIndex("Он пошёл в в школу"))
         assertEquals(40, firstDuplicateIndex("Яблоко упало на ветку с ветки оно упало на на землю"))
         assertEquals(9, firstDuplicateIndex("Мы пошли прямо Прямо располагался магазин"))
+        assertEquals(-1, firstDuplicateIndex(": 7 = N = ^ X L 9 - \\\\ ) p ] r $ p I"))
     }
 
     @Test
