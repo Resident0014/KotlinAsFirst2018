@@ -262,7 +262,7 @@ fun fromRoman(roman: String): Int {
     if (!regex.matches(roman))
         return -1
     if (regex.matches(roman))
-        return Regex("""I|IV|V|IX|X|XL|L|XC|C|CD|D|CM|M""").findAll(roman).map { romanDigit[it.value] }.sumBy {
+        return Regex("""CM|CD|XC|XL|IX|IV|M|D|C|L|X|V|I""").findAll(roman).map { romanDigit[it.value] }.sumBy {
             it ?: 0
         }
     return -1
