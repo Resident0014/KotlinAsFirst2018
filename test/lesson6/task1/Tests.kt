@@ -99,6 +99,11 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { plusMinus("4 - + 12") }
         assertThrows(IllegalArgumentException::class.java) { plusMinus("6)Uz'#YP\n(!2\"x+0\",i_") }
         assertThrows(IllegalArgumentException::class.java) { plusMinus("G-c(qX}Cz/8yu2*I(^W*") }
+        try {
+            plusMinus("~JD*_c\\teH:QnPQudT,8z")
+        } catch (e: Exception) {
+            assertEquals(e::class.java, IllegalArgumentException::class.java)
+        }
     }
 
     @Test

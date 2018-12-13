@@ -185,8 +185,13 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
+    try {
+        val result = mutableListOf(parts[0].toInt())
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
     val result = mutableListOf(parts[0].toInt())
-    if (Regex("""((\d+\s*[+-]\s*)+\d+)?""").matches(expression) || (Regex("""\d+""").matches(expression))) {
+    if ((Regex("""((\d+\s*[+-]\s*)+\d+)?""").matches(expression) || (Regex("""\d+""").matches(expression))) && (parts.size % 2 != 0)) {
         for (i in 1..(parts.size - 1) step 2) {
             if (parts[i] == "+") result.add(parts[i + 1].toInt())
             else result.add(-parts[i + 1].toInt())
@@ -228,7 +233,7 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть больше либо равны нуля.
  */
 fun mostExpensive(description: String): String {
-    val regex = Regex("""((([a-zа-яA-ZА-Я])+\s([0123456789(\.)]+)(\;)?\s?)+)""")
+    val regex = Regex("""((([^\s])+\s([0123456789(\.)]+)(\;)?\s?)+)""")
     if (!regex.matches(description)) return ""
     val parts = description.split(" ", ";").filter { it != "" }
     val list = mutableListOf<Double>()
@@ -247,7 +252,19 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val regex = Regex("""M*(CM)?(CD|D)?C{0,3}(XC)?(XL|L)?X{0,3}(IX)?(IV|V)?I{0,3}""")
+    val romanDigit = mapOf("I" to 1, "IV" to 4, "V" to 5, "IX" to 9, "X" to 10,
+            "XL" to 40, "L" to 50, "XC" to 90, "C" to 100, "CD" to 400,
+            "D" to 500, "CM" to 900, "M" to 1000)
+    if (regex.matches(roman))
+        return Regex("""I|IV|V|IX|X|XL|L|XC|C|CD|D|CM|M""").findAll(roman).map { romanDigit[it.value] }.sumBy { it ?: 0 }
+    if (!regex.matches(roman))
+        return -1
+    if (roman.isEmpty())
+        return -1
+    return -1
+}
 /**
  * Очень сложная
  *
