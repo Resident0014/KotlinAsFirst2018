@@ -185,13 +185,13 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
-    try {
-        val result = mutableListOf(parts[0].toInt())
+    val result = try {
+        mutableListOf(parts[0].toInt())
     } catch (e: NumberFormatException) {
         throw IllegalArgumentException()
     }
-    val result = mutableListOf(parts[0].toInt())
-    if ((Regex("""((\d+\s*[+-]\s*)+\d+)?""").matches(expression) || (Regex("""\d+""").matches(expression))) && (parts.size % 2 != 0)) {
+    if ((Regex("""((\d+\s*[+-]\s*)+\d+)?""").matches(expression) ||
+                    (Regex("""\d+""").matches(expression))) && (parts.size % 2 != 0)) {
         for (i in 1..(parts.size - 1) step 2) {
             if (parts[i] == "+") result.add(parts[i + 1].toInt())
             else result.add(-parts[i + 1].toInt())
@@ -236,9 +236,15 @@ fun mostExpensive(description: String): String {
     val regex = Regex("""((([^\s])+\s([0123456789(\.)]+)(\;)?\s?)+)""")
     if (!regex.matches(description)) return ""
     val parts = description.split(" ", ";").filter { it != "" }
-    val list = mutableListOf<Double>()
-    for (i in 1..(parts.size - 1) step 2) list += parts[i].toDouble()
-    return parts[(parts.indexOf(list.max().toString())) - 1]
+    var result = ""
+    var max = 0.0
+    for (i in 1..(parts.size - 1) step 2) {
+        if (parts[i].toDouble() >= max) {
+            max = parts[i].toDouble()
+            result = parts[i - 1]
+        }
+    }
+    return result
 }
 
 /**
