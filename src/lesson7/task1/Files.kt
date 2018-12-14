@@ -64,7 +64,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     }
     return result
 }
-
+/*val sizeWords = Regex(wordsLower).find(input, 0)*/
 
 /**
  * Средняя
@@ -230,7 +230,7 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    val result = mutableSetOf<String>()
+    val result = mutableListOf<String>()
     val outputStream = File(outputName).bufferedWriter()
     val input = File(inputName).readLines()
     var max = 0
