@@ -108,11 +108,11 @@ fun diameter(vararg points: Point): Segment {
     if (points.size < 2) throw IllegalArgumentException()
     var point1 = points[0]
     var point2 = points[1]
-    val max = point1.distance(point2)
+    var max = point1.distance(point2)
     for (i in 0 until points.size) {
         for (j in (i + 1) until points.size) {
-            var newMax = max
-            if (points[i].distance(points[j]) > newMax) {
+            if (points[i].distance(points[j]) > max) {
+                max = points[i].distance(points[j])
                 point1 = points[i]
                 point2 = points[j]
             }
@@ -173,8 +173,8 @@ class Line private constructor(val b: Double, val angle: Double) {
  */
 fun lineBySegment(s: Segment): Line {
     var angel = atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x))
-    if (angel == PI) angel -= PI
-    if (angel < 0) angel += PI
+    if (angel == PI) angel -= PI else throw IllegalArgumentException()
+    if (angel < 0) angel += PI else throw IllegalArgumentException()
     return Line(s.begin, angel)
 }
 
